@@ -16,11 +16,11 @@ class _WeatherPageState extends State<WeatherPage> {
 
   _fetchWeather() async {
     //get the city name
-    String cityName = await _weatherService.getCurrentCity();
+    String cityPosition = await _weatherService.getCurrentCity();
 
     //try to get the weather
     try {
-      final weather = await _weatherService.getWeather(cityName);
+      final weather = await _weatherService.getWeather(cityPosition);
       setState(() {
         _weather = weather;
       });
@@ -31,7 +31,6 @@ class _WeatherPageState extends State<WeatherPage> {
 
   //weather animations
   String getWeatherAnimation(String? mainCondition) {
-    print(mainCondition);
     if (mainCondition == null) return 'assets/sunny.json';
 
     switch (mainCondition) {
@@ -105,7 +104,7 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[700],
+      backgroundColor: Colors.grey[800],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -135,7 +134,7 @@ class _WeatherPageState extends State<WeatherPage> {
             Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
             Text('${_weather?.temperature.round()}°C',
                 style: const TextStyle(
-                    fontSize: 52,
+                    fontSize: 64,
                     color: Colors.white,
                     fontFamily: "Bebas Neue")),
           ],

@@ -1,20 +1,18 @@
 import 'dart:convert';
-
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/models/weather_model.dart';
 import 'package:http/http.dart' as http;
 
 class WeatherService {
+  // ignore: constant_identifier_names
   static const BASE_URL = "http://api.weatherapi.com/v1/current.json";
   final String apiKey;
 
   WeatherService(this.apiKey);
 
-  Future<Weather> getWeather(String cityName) async {
+  Future<Weather> getWeather(String cityPosition) async {
     final response = await http.get(Uri.parse(
-        'http://api.weatherapi.com/v1/current.json?key=0f90e5961c5e48c2b05185043242307&q=$cityName'));
-
+        '$BASE_URL?key=0f90e5961c5e48c2b05185043242307&q=$cityPosition'));
     if (response.statusCode == 200) {
       return Weather.fromJson(jsonDecode(response.body));
     } else {
@@ -32,11 +30,8 @@ class WeatherService {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
 
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
+    String? city = '${position.latitude},${position.longitude}';
 
-    String? city = placemarks[0].locality;
-
-    return city ?? "";
+    return city;
   }
 }

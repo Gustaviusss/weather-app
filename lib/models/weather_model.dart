@@ -10,7 +10,7 @@ class Weather {
 
   factory Weather.fromJson(Map<String, dynamic> json) {
     return Weather(
-      cityName: json['location']['name'],
+      cityName: '${json['location']['name']}, ${json['location']['region']}',
       temperature: json['current']['temp_c'].toDouble(),
       mainCondition: json['current']['condition']['text'],
     );
